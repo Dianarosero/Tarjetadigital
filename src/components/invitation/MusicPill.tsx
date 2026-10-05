@@ -34,7 +34,8 @@ export function MusicPill({ compact = false }: { compact?: boolean }) {
       const audio = new Audio(MUSIC.src);
       audio.loop = true;
       audio.volume = MUSIC.volume;
-      audio.preload = "none";
+      audio.preload = "metadata";
+      audio.load();
       // Mantiene el botón sincronizado si el sistema pausa el audio (llamada, otra app…).
       audio.addEventListener("pause", () => setPlaying(false));
       audio.addEventListener("play", () => setPlaying(true));

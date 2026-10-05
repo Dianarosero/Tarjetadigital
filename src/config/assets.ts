@@ -26,9 +26,9 @@ export const assets = {
   },
   /** GIF decorativo que acompaña la transición después de abrir el sobre. */
   lionTransition: {
-    src: "/assets/optimized/lion-transition.webp",
-    width: 500,
-    height: 800,
+    src: "/assets/optimized/lion-transition-small.webp",
+    width: 320,
+    height: 512,
     alt: "",
     animated: true,
   },

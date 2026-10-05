@@ -47,6 +47,6 @@ export const EVENT = {
 
 /** Música ambiental. Reemplaza el archivo en /public/audio o cambia esta ruta. */
 export const MUSIC = {
-  src: "/audio/Camilo, Evaluna Montaner - Índigo.mp3",
+  src: "/audio/invitation-music.mp3",
   volume: 0.45,
 } as const;
