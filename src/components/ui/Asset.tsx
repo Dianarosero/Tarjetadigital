@@ -51,6 +51,7 @@ export function Asset({ name, className, priority = false, alt }: AssetProps) {
       aria-hidden={decorative || undefined}
       className={className}
       priority={priority}
+      unoptimized
       draggable={false}
     />
   );

@@ -7,8 +7,8 @@ import { cn } from "@/lib/utils/cn";
 
 /**
  * Píldora flotante de música ambiental.
- *  - 100 % manual: no hay autoplay; el audio solo se crea y reproduce tras un toque.
- *  - El archivo no se descarga hasta la primera activación (ahorra datos móviles).
+ *  - 100 % manual: no hay autoplay; la reproducción solo comienza tras un toque.
+ *  - El audio se precarga en segundo plano para que el botón responda sin espera.
  *  - Si el navegador rechaza la reproducción, se avisa con un mensaje discreto.
  */
 export function MusicPill({ compact = false }: { compact?: boolean }) {
@@ -17,8 +17,36 @@ export function MusicPill({ compact = false }: { compact?: boolean }) {
   const [failed, setFailed] = useState(false);
 
   useEffect(() => {
+    const audio = new Audio(MUSIC.src);
+    audio.loop = false;
+    audio.volume = MUSIC.volume;
+    audio.preload = "auto";
+
+    const handlePlay = () => setPlaying(true);
+    const handlePause = () => setPlaying(false);
+    const handleEnded = () => {
+      audio.currentTime = 0;
+      setPlaying(false);
+    };
+    const pauseWhenHidden = () => {
+      if (document.visibilityState !== "visible") audio.pause();
+    };
+
+    audio.addEventListener("play", handlePlay);
+    audio.addEventListener("pause", handlePause);
+    audio.addEventListener("ended", handleEnded);
+    document.addEventListener("visibilitychange", pauseWhenHidden);
+    window.addEventListener("pagehide", pauseWhenHidden);
+    audio.load();
+    audioRef.current = audio;
+
     return () => {
-      audioRef.current?.pause();
+      audio.pause();
+      audio.removeEventListener("play", handlePlay);
+      audio.removeEventListener("pause", handlePause);
+      audio.removeEventListener("ended", handleEnded);
+      document.removeEventListener("visibilitychange", pauseWhenHidden);
+      window.removeEventListener("pagehide", pauseWhenHidden);
       audioRef.current = null;
     };
   }, []);
@@ -30,18 +58,8 @@ export function MusicPill({ compact = false }: { compact?: boolean }) {
   }, [failed]);
 
   const toggle = useCallback(async () => {
-    if (!audioRef.current) {
-      const audio = new Audio(MUSIC.src);
-      audio.loop = true;
-      audio.volume = MUSIC.volume;
-      audio.preload = "metadata";
-      audio.load();
-      // Mantiene el botón sincronizado si el sistema pausa el audio (llamada, otra app…).
-      audio.addEventListener("pause", () => setPlaying(false));
-      audio.addEventListener("play", () => setPlaying(true));
-      audioRef.current = audio;
-    }
     const audio = audioRef.current;
+    if (!audio) return;
     if (!audio.paused) {
       audio.pause();
       return;
