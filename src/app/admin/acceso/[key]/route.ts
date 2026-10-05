@@ -1,4 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
+import { getSiteSettings } from "@/config/site";
 import { ADMIN_COOKIE, ADMIN_COOKIE_PATH } from "@/lib/auth/admin-session";
 import { SESSION_MAX_AGE_SECONDS, isValidAccessSecret, safeEqual, signSession } from "@/lib/auth/session-token";
 
@@ -19,9 +20,8 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
     return new NextResponse(null, { status: 404, headers: { "Cache-Control": "no-store" } });
   }
 
-  const destination = request.nextUrl.clone();
-  destination.pathname = "/admin";
-  destination.search = "";
+  const configuredSiteUrl = getSiteSettings().siteUrl;
+  const destination = new URL("/admin", configuredSiteUrl ?? request.url);
 
   const response = NextResponse.redirect(destination, 303);
   response.cookies.set({
