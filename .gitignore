@@ -1,0 +1,17 @@
+# dependencias y build
+node_modules
+.next
+out
+*.tsbuildinfo
+next-env.d.ts
+
+# entorno (NUNCA subir secretos)
+.env
+.env.local
+.env.*.local
+
+# sistema / editores
+.DS_Store
+.vscode
+.idea
+npm-debug.log*
