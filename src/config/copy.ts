@@ -53,8 +53,6 @@ export const copy = {
 
   rsvp: {
     title: "¿Nos acompañarán?",
-    invitedFor: (n: number) =>
-      n === 1 ? "Esta invitación es para 1 persona." : `Esta invitación es para ${n} personas.`,
     yes: "SÍ, CONFIRMAREMOS",
     no: "NO PODREMOS ASISTIR",
     guestsQuestion: "¿Cuántas personas asistirán?",

@@ -46,7 +46,7 @@ Coherencia (`CHECK rsvps_guests_match_status`): si `attending` → ≥ 1 persona
 ## Triggers (red de seguridad en la base)
 
 - `set_updated_at` en ambas tablas.
-- `rsvps_check_guests`: una respuesta no puede confirmar más personas que `guests_invited` (`rsvp_guests_exceed_invited`).
+- `rsvps_guests_range`: una respuesta puede confirmar entre 0 y 50 personas. Puede superar el número inicialmente indicado en `guests_invited`.
 - `families_check_guests`: no se puede bajar `guests_invited` por debajo de lo ya confirmado (`family_guests_below_confirmed`).
 
 ## Seguridad (RLS)

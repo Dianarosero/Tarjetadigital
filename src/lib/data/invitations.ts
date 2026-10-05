@@ -79,10 +79,6 @@ export async function submitRsvp(request: RsvpRequest): Promise<SubmitRsvpResult
         : { ok: false, code: "already_responded", rsvp: existing };
     }
 
-    if (guests > family.guestsInvited) {
-      return { ok: false, code: "too_many_guests", guestsInvited: family.guestsInvited };
-    }
-
     const { error: insertError } = await db.from("rsvps").insert({
       family_id: family.id,
       status: request.status,

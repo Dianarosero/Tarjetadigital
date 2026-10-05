@@ -28,7 +28,7 @@ create table if not exists public.families (
   name            text not null,
   -- Identificador público e impredecible que va en la URL (/invitacion/<token>).
   token           text not null,
-  -- Personas que caben en la invitación (tope del RSVP).
+  -- Personas inicialmente contabilizadas para la invitación.
   guests_invited  smallint not null default 1,
   -- false = invitación deshabilitada (el enlace deja de funcionar).
   is_active       boolean not null default true,
@@ -90,28 +90,6 @@ create trigger rsvps_set_updated_at
 -- -----------------------------------------------------------------------------
 -- Reglas entre tablas (red de seguridad en la base de datos)
 -- -----------------------------------------------------------------------------
-
--- Un RSVP nunca puede confirmar más personas que las invitadas.
-create or replace function public.rsvps_check_guests()
-returns trigger
-language plpgsql
-set search_path = ''
-as $$
-declare
-  invited smallint;
-begin
-  select f.guests_invited into invited from public.families f where f.id = new.family_id;
-  if new.guests_confirmed > invited then
-    raise exception 'rsvp_guests_exceed_invited' using errcode = '23514';
-  end if;
-  return new;
-end;
-$$;
-
-drop trigger if exists rsvps_check_guests on public.rsvps;
-create trigger rsvps_check_guests
-  before insert or update on public.rsvps
-  for each row execute function public.rsvps_check_guests();
 
 -- No se puede bajar guests_invited por debajo de lo ya confirmado.
 create or replace function public.families_check_guests()
@@ -181,5 +159,4 @@ grant select, insert, update, delete on table public.rsvps           to service_
 grant select                         on table public.family_overview to service_role;
 
 revoke all on function public.set_updated_at()       from public;
-revoke all on function public.rsvps_check_guests()   from public;
 revoke all on function public.families_check_guests() from public;

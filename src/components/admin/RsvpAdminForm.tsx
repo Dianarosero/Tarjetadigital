@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState, useState } from "react";
+import { MAX_GUESTS } from "@/lib/validation/schemas";
 import type { ActionState, FamilyOverview } from "@/types";
 
 interface RsvpAdminFormProps {
@@ -45,14 +46,14 @@ export function RsvpAdminForm({ action, family }: RsvpAdminFormProps) {
           type="number"
           inputMode="numeric"
           min={status === "attending" ? 1 : 0}
-          max={family.guestsInvited}
+          max={MAX_GUESTS}
           disabled={status !== "attending"}
           defaultValue={(state.status === "error" ? state.values?.guests : undefined) ?? (family.rsvp?.guestsConfirmed || family.guestsInvited)}
           aria-invalid={errors.guests ? true : undefined}
           className="mt-1 block min-h-[2.75rem] w-full rounded-xl border border-pizarra/40 bg-white px-3 text-base disabled:bg-slate-100 disabled:text-slate-500"
         />
         {errors.guests ? <p className="mt-1 text-sm font-medium text-rose-800">{errors.guests}</p> : null}
-        <p className="mt-1 text-xs text-pizarra/80">Máximo {family.guestsInvited}.</p>
+        <p className="mt-1 text-xs text-pizarra/80">Máximo {MAX_GUESTS}.</p>
       </div>
 
       <div className="sm:pt-6">

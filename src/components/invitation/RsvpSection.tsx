@@ -8,6 +8,7 @@ import { Card } from "@/components/ui/Card";
 import { Sparkle } from "@/components/ui/Sparkle";
 import { cn } from "@/lib/utils/cn";
 import { buildWhatsappMessage, buildWhatsappUrl } from "@/lib/utils/whatsapp";
+import { MAX_GUESTS } from "@/lib/validation/schemas";
 import type { PublicRsvp, RsvpApiResponse, RsvpErrorCode } from "@/types";
 
 type Channel = "form" | "whatsapp";
@@ -271,8 +272,8 @@ export function RsvpSection({ token, familyName, guestsInvited, initialRsvp, wha
                         <button
                           type="button"
                           aria-label={copy.rsvp.moreGuests}
-                          disabled={guests >= guestsInvited || isBusy}
-                          onClick={() => setGuests((g) => Math.min(guestsInvited, g + 1))}
+                          disabled={guests >= MAX_GUESTS || isBusy}
+                          onClick={() => setGuests((g) => Math.min(MAX_GUESTS, g + 1))}
                           className="h-14 w-14 rounded-full bg-marfil text-[1.75rem] font-bold leading-none text-pizarra ring-2 ring-pizarra transition active:scale-95 disabled:opacity-40"
                         >
                           <span aria-hidden="true">+</span>
