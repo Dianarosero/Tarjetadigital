@@ -210,8 +210,6 @@ export function RsvpSection({ token, familyName, guestsInvited, initialRsvp, wha
           </div>
         ) : (
           <>
-            <p className="mt-2 text-center text-[1.0625rem] italic">{copy.rsvp.invitedFor(guestsInvited)}</p>
-
             <div role="group" aria-label={copy.rsvp.title} className="mt-6 grid gap-3">
               <Button
                 variant="gold"
