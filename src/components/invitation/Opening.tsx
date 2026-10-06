@@ -59,7 +59,9 @@ export function Opening({ familyDisplay, opened, onOpen }: OpeningProps) {
               <Sparkle className="h-4 w-4" />
             </div>
             <div className="env-front" />
-            <div className="env-address">{familyDisplay}</div>
+            <div className="env-address" title={familyDisplay}>
+              {familyDisplay}
+            </div>
             <div className="env-flap">
               <div className="env-flap-face env-flap-face--front" />
               <div className="env-flap-face env-flap-face--back" />
