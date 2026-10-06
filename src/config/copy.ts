@@ -30,7 +30,7 @@ export const copy = {
     paragraphs: [
       "Nuestros corazones están llenos de ilusión por la llegada de Juan José. Nos llena de gratitud saber que nacerá rodeado de un inmenso cariño.",
       "Gracias por acompañarnos en esta dulce espera. Que Dios bendiga siempre su hogar, tal como hoy bendice al nuestro.",
-      "¡Acompáñennos a celebrar este milagro!",
+      "¡Acompáñenos a celebrar esta gran bendición!",
     ],
     parentsLead: "Con todo el amor",
   },
